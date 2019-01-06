@@ -1,6 +1,24 @@
 import React, { useState } from "react";
 import "./App.css";
 
+const TodoForm = props => {
+  const [formValue, setFormValue] = useState("");
+  const submitTodoForm = e => {
+    e.preventDefault();
+  };
+  return (
+    <form>
+      <label htmlFor="newToDo">New ToDo: </label>
+      <input
+        type="text"
+        name="newToDo"
+        value={formValue}
+        onChange={e => setFormValue(e.target.value)}
+      />
+    </form>
+  );
+};
+
 const Todo = ({ todo, index, toggleCompleted, removeTodo }) => {
   return (
     <div
@@ -55,6 +73,7 @@ const App = props => {
             removeTodo={removeTodo}
           />
         ))}
+        <TodoForm />
       </div>
     </div>
   );
