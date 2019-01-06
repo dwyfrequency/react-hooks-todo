@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import "./App.css";
 
-const TodoForm = props => {
+const TodoForm = ({ addTodo }) => {
   const [formValue, setFormValue] = useState("");
+
   const submitTodoForm = e => {
+    console.log(formValue);
     e.preventDefault();
+    if (formValue === "") {
+      return;
+    }
+    addTodo(formValue);
+    setFormValue("");
   };
+
   return (
-    <form>
+    <form onSubmit={submitTodoForm}>
       <label htmlFor="newToDo">New ToDo: </label>
       <input
         type="text"
@@ -48,6 +56,15 @@ const App = props => {
     }
   ]);
 
+  const addTodo = todo => {
+    const updatedTodoList = todoList.concat([
+      { text: todo, isCompleted: false }
+    ]);
+    console.log(updatedTodoList);
+    setTodoList(updatedTodoList);
+    return;
+  };
+
   const removeTodo = index => {
     const updatedTodoList = todoList.filter((_, idx) => idx !== index);
     setTodoList(updatedTodoList);
@@ -73,7 +90,7 @@ const App = props => {
             removeTodo={removeTodo}
           />
         ))}
-        <TodoForm />
+        <TodoForm addTodo={addTodo} />
       </div>
     </div>
   );
